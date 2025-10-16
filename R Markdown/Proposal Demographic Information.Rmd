@@ -1,0 +1,89 @@
+---
+title: "Proposal sample demographics"
+author: "Simon Grasdal - 0636324"
+date: "2023-01-29"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(skimr)
+library(tidyverse)
+library(readxl)
+library(gtsummary)
+library(flextable)
+theme_gtsummary_journal(journal = "jama")
+```
+
+```{r}
+
+study1 <- read_excel("C:/Users/sgras/OneDrive/Documents/School/A Risky Business (publication)/A Risky Business (Data Analysis)/Data/Study_1(MJ - Formatted).xlsx", 
+    sheet = "Concussion Questionnaire")
+study2A <- read_excel("C:/Users/sgras/OneDrive/Documents/School/A Risky Business (publication)/A Risky Business (Data Analysis)/Data/Study_2A&B(MH - Formatted).xlsx", 
+    sheet = "Recode")
+```
+
+```{r Recode}
+study1$GEN <- factor(study1$GEN, levels=c(2,1),labels=c("Female","Male"))
+study1$VAR.TEAM <- factor(study1$VAR.TEAM, levels=c(1,2,3,4,5,6,11,15),labels=c("Rugby", "Soccer", "Lacrosse", "Curling","Rowing", "Volleyball","Hockey","Other"))
+
+study2A$Gender <- factor(study2A$Gender, levels=c(2,1),labels=c("Female","Male"))
+
+```
+
+```{r vectorizing}
+demo1 <- c("AGE", "GEN", "VAR.TEAM")
+demo2A <- c("Age", "Gender", "Sport")
+```
+
+```{r tables}
+study1[demo1] %>% 
+    tbl_summary(
+      type = list(
+        c(AGE) ~ "continuous",
+        c(GEN, VAR.TEAM) ~ "categorical"),
+      label = list(
+            AGE ~ "Age", GEN ~ "Gender", VAR.TEAM ~ "Sport"),
+      statistic = list(
+        c("AGE") ~  c("{mean}({sd})"),
+        c(GEN, VAR.TEAM) ~ "{n} ({p}%)"), 
+      missing = "no"
+    ) %>%
+    add_n() %>%
+    modify_header(label ~ "Variable") %>%
+    modify_caption("Table 1. Demographic Information Study 1") %>%
+    modify_footnote(
+      all_stat_cols() ~ " Mean(SD) or Frequency (%)"
+       ) %>%
+    bold_labels() %>%
+    italicize_levels()  %>%
+    as_flex_table()
+
+study2A[demo2A] %>% 
+    tbl_summary(
+      type = list(
+        c(Age) ~ "continuous",
+        c(Gender, Sport) ~ "categorical"),
+      label = list(
+            Age ~ "Age", Gender ~ "Gender", Sport ~ "Sport"),
+      statistic = list(
+        c(Age) ~  c("{mean}({sd})"),
+        c(Gender, Sport) ~ "{n} ({p}%)"), 
+      missing = "no"
+    ) %>%
+    add_n() %>%
+    modify_header(label ~ "Variable") %>%
+    modify_caption("Table 1. Demographic Information Study 1") %>%
+    modify_footnote(
+      all_stat_cols() ~ " Mean(SD) or Frequency (%)"
+       ) %>%
+    bold_labels() %>%
+    italicize_levels()  %>%
+    as_flex_table()
+```
+
+
+
+

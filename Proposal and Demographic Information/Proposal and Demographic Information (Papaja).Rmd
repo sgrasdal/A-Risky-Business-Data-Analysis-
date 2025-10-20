@@ -1,0 +1,188 @@
+---
+title             : "A Risky Business: Perceived Risk of Concussion Associated with Intentions Toward Health Behaviours"
+shorttitle        : "A Risky Business"
+
+author: 
+  - name          : "Simon Grasdal"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Postal address"
+    email         : "my@email.com"
+    role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
+      - "Conceptualization"
+      - "Writing - Original Draft Preparation"
+      - "Writing - Review & Editing"
+  - name          : "Redacted"
+    affiliation   : "1"
+    role:
+      - "Writing - Review & Editing"
+      - "Supervision"
+
+affiliation:
+  - id            : "1"
+    institution   : "Redacted"
+
+authornote: |
+  Department of Psychology
+
+ 
+abstract: |
+  All sports maintain some level of risk of injury. For contact sports, the risk of concussion is guaranteed to be elevated. Athletes’ perception of this risk motivates their adherence to protective health behaviours on and off the pitch. While it is clear from prior research that athlete estimates of likelihood and severity are central driving factors in adherence to health behaviours, the strength of these variables and the associated moderating variables are still unclear. Our goal was to examine these cognitive components of perceived risk and the intent to execute the appropriate health behaviours per the Common Sense Model of Illness Representation presented by Diefenbach and Leventhal (1996). We predicted that higher estimates within severity and likelihood components would lead to greater intention toward health behaviours. Additionally, we predicted that retrospective adherence to these protective behaviours would also be related to greater estimates of severity and likelihood. Finally, we hypothesized that optimism bias would be a moderating variable for estimating direct likelihood and intentions toward health behaviours. Results were achieved using a series of regression analyses on data collected for two prior studies (N = 315, 57% male) using standard measures of risk representation. Results indicated that factors of Schmitt and colleagues’ (2021) updated concussion perception questionnaire contributed to the association between risk estimates and intention toward health behaviours. These results illustrate that a complete understanding of the injury is more likely to result in intentions toward health behaviours but also indicate the need for further research into the motivating factors behind health intentions and behaviours. 
+  
+  For the purposes of this upload, all sensitive data has been redacted to protect the privacy of the individuals involved since this is not an official publication but merely a living document and proof of work.
+  
+  <!-- https://tinyurl.com/ybremelq -->
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+bibliography      : "r-references.bib"
+
+floatsintext      : no
+linenumbers       : yes
+draft             : no
+mask              : no
+
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+
+classoption       : "man"
+output            : papaja::apa6_docx
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+r_refs("r-references.bib")
+library(skimr)
+library(tidyverse)
+library(readxl)
+library(gtsummary)
+library(flextable)
+library(car)
+library(moments)
+library(ggplot2)
+library(GGally)
+library(ggExtra)
+library(ggcorrplot)
+library(ggpubr)
+library(stdmod)
+library(magick)
+library(psych)
+library(rstatix)
+library(WRS2)
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed,
+                      warning = FALSE, message = FALSE)
+```
+
+```{r Importing the Data}
+
+study1 <- read_excel("C:/Users/sgras/OneDrive/Documents/School/A Risky Business (publication)/A Risky Business (Data Analysis)/Data/Study_1(MJ - Formatted).xlsx", 
+    sheet = "Concussion Questionnaire")
+study2A <- read_excel("C:/Users/sgras/OneDrive/Documents/School/A Risky Business (publication)/A Risky Business (Data Analysis)/Data/Study_2A&B(MH - Formatted).xlsx", 
+    sheet = "Recode")
+```
+
+```{r Recode}
+study1$GEN <- factor(study1$GEN, levels=c(2,1),labels=c("Female","Male"))
+study1$VAR.TEAM <- factor(study1$VAR.TEAM, levels=c(1,2,3,4,5,6,11,15),labels=c("Rugby", "Soccer", "Lacrosse", "Curling","Rowing", "Volleyball","Hockey","Other"))
+
+study2A$Gender <- factor(study2A$Gender, levels=c(2,1),labels=c("Female","Male"))
+
+```
+
+```{r vectorizing}
+demo1 <- c("AGE", "GEN", "VAR.TEAM")
+demo2A <- c("Age", "Gender", "Sport")
+```
+# Introduction
+Fear and avoidance substantially influence human behaviour (Rimal & Real, 2003). If you think that playing Rugby will guarantee bodily harm, and you’re afraid of getting tackled or receiving a grievous injury, you will probably avoid playing the sport altogether. Risk perceptions influence our decision-making as underlying mechanisms of our thought processes; however, not all risk perceptions are created equally (Diefenbach & Leventhal, 1996; Rimal & Real, 2003). It’s much easier to be concerned about something with a clear, objective, and quickly identified impact on day-to-day functioning, as one might expect from having a broken arm, unlike more subtle injuries like concussions or traumatic brain injuries which can vary in how we perceive them to be risky (Kish & Koutures, 2016; McGannon et al., 2013). 
+A literature review shows that awareness of concussions and cognitive injuries has grown recently. As reported in many recent studies, the severity of the long-term consequences and the overall prevalence in and out of sports is severe, which is why continued research into concussions is critical (Manley et al. 2017). For this reason, investigations into the relationship between these variables in the context of concussions and concussive injuries are important for understanding why people engage in dangerous behaviour and what they do to protect themselves. By examining the relationships between individuals' health risks and the protective and management behaviours they engage in, we can hope to better understand the breadth of the issue. 
+
+
+
+# Methods
+## Design 
+The data collected for the present study comes from two pre-existing data sets. The study, hereafter called study 1, was originally collected by ~~redacted~~ and Professor ~~redacted~~ for an honour’s thesis in 2014. The data (hereafter called study 2) was collected for a study conducted by ~~redacted~~ and Professor ~~redacted~~ as part of an honour’s thesis at Trent University in 2018. As such, the methods concerning the collection of the data (participants, procedure, and materials) will reflect the methods used during the original data collection phases.
+
+Data collection for study 1 occurred once for two separate groups, the final collection of which occurred in 2014. The study is entirely correlational and cross sectional, and no interventions were administered at either collection time by the authors. The second group completed a survey that had additional questions pertaining to the length of time as a varsity and how long they played their respective sport. Additionally, questions were added pertaining to their personal rating risk of a concussion and others’ risk of a concussion. The data for study 2 were collected at two separate points throughout the athletic season (pre-and post-season) to reflect the study’s longitudinal design in pursuit of examining perceptions of risk and concussions and the impact on prevention and management behaviours. The study is correlational in nature and incorporates cross-sectional measures with longitudinal measures. No interventions were administered at any point in time by the authors.
+
+### Participants
+#### Study 1
+The sample taken for study 1 consisted of 175 varsity athletes from ~~redacted~~ (Shown in Table 1). Athletes that participated in one or more varsity sports were recruited along with extramural men’s hockey teams (which was included in the study because of the comparable level of competition and elevated risk of concussion; ~~redacted~~, 2014). Group involvement was achieved by emailing coaches and trainers followed by individual recruitment at practices (-redacted-, 2014). Coaches, trainers and athletes associated with the varsity teams were contacted with details on the direction and requirements for the study (~~redacted~~, 2014). Meetings with the teams were arranged to explain the details of the study and confirm involvement. No compensation or reward was given for participation (~~redacted~~, 2014). Qualtrics and physical surveys were used to collect the data from participants (~~redacted~~, 2014).
+
+```{r table1}
+study1[demo1] %>% 
+    tbl_summary(
+      type = list(
+        c(AGE) ~ "continuous",
+        c(GEN, VAR.TEAM) ~ "categorical"),
+      label = list(
+            AGE ~ "Age", GEN ~ "Gender", VAR.TEAM ~ "Sport"),
+      statistic = list(
+        c("AGE") ~  c("{mean}({sd})"),
+        c(GEN, VAR.TEAM) ~ "{n} ({p}%)"), 
+      missing = "no"
+    ) %>%
+    add_n() %>%
+    modify_header(label ~ "Variable") %>%
+    modify_caption("Demographic Information Study 1") %>%
+    modify_footnote(
+      all_stat_cols() ~ " Mean(SD) or Frequency (%)"
+       ) %>%
+    bold_labels() %>%
+    italicize_levels()  %>%
+    as_flex_table()
+```
+
+#### Study 2
+The data for this study was collected through the Trent University and ~~redacted~~ sports teams. Participants from Trent University’s men’s and women’s Rugby, Soccer, and Lacrosse teams and athletes from the men’s and women’s Soccer and Rugby teams from Fleming College were contacted via email with permission from the schools. Following this, participants were approached by the researchers after team meetings or after practice to confirm participation. Thereupon, the original study was explained, and written consent was gathered from the prospective participants. Of the original outreach group, 142 university and college athletes participated in the study to completion, answering surveys before and after the season.
+
+``` {r Table2}
+study2A[demo2A] %>% 
+    tbl_summary(
+      type = list(
+        c(Age) ~ "continuous",
+        c(Gender, Sport) ~ "categorical"),
+      label = list(
+            Age ~ "Age", Gender ~ "Gender", Sport ~ "Sport"),
+      statistic = list(
+        c(Age) ~  c("{mean}({sd})"),
+        c(Gender, Sport) ~ "{n} ({p}%)"), 
+      missing = "no"
+    ) %>%
+    add_n() %>%
+    modify_header(label ~ "Variable") %>%
+    modify_caption("Demographic Information Study 2") %>%
+    modify_footnote(
+      all_stat_cols() ~ " Mean(SD) or Frequency (%)"
+       ) %>%
+    bold_labels() %>%
+    italicize_levels()  %>%
+    as_flex_table()
+```
+
+## Participants
+
+## Material
+
+## Procedure
+
+## Data analysis
+
+# Results
+
+# Discussion
+
+
+\newpage
+
+# References
+
+::: {#refs custom-style="Bibliography"}
+:::

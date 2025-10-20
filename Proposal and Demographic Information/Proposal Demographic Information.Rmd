@@ -5,6 +5,8 @@ date: "2023-01-29"
 output:
   pdf_document: default
   word_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
